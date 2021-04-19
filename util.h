@@ -8,12 +8,12 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-const int SCREEN_WIDTH = 200;
-const int SCREEN_HEIGHT = 200;
+const int SCREEN_WIDTH = 400;
+const int SCREEN_HEIGHT = 400;
 
 const int BLOCK_SIZE = 4;
 
-const float FPS = 1.f/60.f;
+const float FPS = 1.f/20.f;
 
 const int nb_cells = (SCREEN_WIDTH / BLOCK_SIZE) + (SCREEN_HEIGHT / BLOCK_SIZE);
 const int nb_rows = (SCREEN_WIDTH / BLOCK_SIZE);

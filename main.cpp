@@ -65,6 +65,8 @@ int main(int argc, char *args[]) {
 				}
 			}
 
+			auto start = std::chrono::system_clock::now();
+
 			//Clear screen
 			SDL_SetRenderDrawColor(app.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			SDL_RenderClear(app.renderer);
@@ -80,7 +82,11 @@ int main(int argc, char *args[]) {
 
 			update(cells);
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			auto end = std::chrono::system_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed = end - start;
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(FPS - elapsed.count())));
 		}
 	}
 
@@ -107,7 +113,7 @@ bool init() {
 		success = false;
 	}
 
-	app.window = SDL_CreateWindow("Brick Breaker", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlag);
+	app.window = SDL_CreateWindow("SDL Forest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlag);
 
 	if(!app.window) {
 		std::cerr << "Err: unable to open window : " << SDL_GetError() << std::endl;
