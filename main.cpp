@@ -136,7 +136,7 @@ bool init() {
 void update(const std::vector<std::vector<Cell*>>& cells) {
 	for(int r = 0; r < nb_rows; r++) {
 		for(int c = 0; c < nb_cols; c++) {
-			Cell *cell = cells.at(r).at(c);
+			Cell *cell = cells[r][c];
 
 			int nb_start_burning;
 			int nb_burning;
@@ -147,42 +147,42 @@ void update(const std::vector<std::vector<Cell*>>& cells) {
 			cellStatusToLook.reserve(8);
 
 			if(r > 0) {
-				cellStatusToLook.push_back(cells.at(r - 1).at(c)->getStatus()); //N
+				cellStatusToLook.push_back(cells[r - 1][c]->getStatus()); //N
 
 				if((c + 1) < nb_cols) {
-					cellStatusToLook.push_back(cells.at(r - 1).at(c + 1)->getStatus());//NE
+					cellStatusToLook.push_back(cells[r - 1][c + 1]->getStatus());//NE
 				}
 
 				if(c > 0) {
-					cellStatusToLook.push_back(cells.at(r - 1).at(c - 1)->getStatus()); //NO
+					cellStatusToLook.push_back(cells[r-1][c-1]->getStatus()); //NO
 				}
 			}
 
 			if(c > 0) {
-				cellStatusToLook.push_back(cells.at(r).at(c - 1)->getStatus()); //O
+				cellStatusToLook.push_back(cells[r][c-1]->getStatus()); //O
 			}
 
 			if((c + 1) < nb_cols) {
-				cellStatusToLook.push_back(cells.at(r).at(c + 1)->getStatus()); //E
+				cellStatusToLook.push_back(cells[r][c + 1]->getStatus()); //E
 			}
 
 			if((r + 1) < nb_rows) {
-				cellStatusToLook.push_back(cells.at(r + 1).at(c)->getStatus()); //S
+				cellStatusToLook.push_back(cells[r + 1][c]->getStatus()); //S
 
 				if((c + 1) < nb_cols) {
-					cellStatusToLook.push_back(cells.at(r + 1).at(c + 1)->getStatus()); //SE
+					cellStatusToLook.push_back(cells[r + 1][c + 1]->getStatus()); //SE
 				}
 
 				if(c > 0) {
-					cellStatusToLook.push_back(cells.at(r + 1).at(c - 1)->getStatus()); //SO
+					cellStatusToLook.push_back(cells[r + 1][c - 1]->getStatus()); //SO
 				}
 			}
 
 			std::vector<int> statusResult = getInternalStatus(cellStatusToLook); // nb_start_burning nb_burning nb_end_burning nb_mature
-			nb_start_burning = statusResult.at(0);
-			nb_burning = statusResult.at(1);
-			nb_end_burning = statusResult.at(2);
-			nb_mature = statusResult.at(3);
+			nb_start_burning = statusResult[0];
+			nb_burning = statusResult[1];
+			nb_end_burning = statusResult[2];
+			nb_mature = statusResult[3];
 
 			switch (cell->getStatus()) {
 				case YOUNG:
