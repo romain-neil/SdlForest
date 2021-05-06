@@ -14,7 +14,9 @@ bool init();
 
 void close();
 
-void update(const std::vector<std::vector<Cell*>>& cells);
+Cell* getCellAt(int x, int y);
+
+void update();
 
 std::vector<int> getInternalStatus(const std::vector<CellStatus>& status);
 
@@ -27,6 +29,8 @@ void updateAshes(Cell *cell);
 
 int randomNb(int min, int max);
 
+std::vector<Cell*> cells;
+
 template <typename T>
 void delete_pointed_to(T* const ptr) {
 	delete ptr;
@@ -37,22 +41,15 @@ int main(int argc, char *args[]) {
 
 	SDL_Event e;
 
-	std::vector<std::vector<Cell*>> cells;
-
-	cells.reserve(nb_rows);
+	cells.reserve(nb_cells);
 
 	//Insert each cells
 	//For each line
-	for(int i = 0; i < nb_rows; i++) {
-		std::vector<Cell*> line;
-		line.reserve(nb_cols);
-
+	for(int row = 0; row < nb_rows; row++) {
 		//For each cols
-		for(int l = 0; l < nb_cols; l++) {
-			line.push_back(new Cell(l * BLOCK_SIZE, i * BLOCK_SIZE));
+		for(int col = 0; col < nb_cols; col++) {
+			cells.push_back(new Cell(col * BLOCK_SIZE, row * BLOCK_SIZE));
 		}
-
-		cells.push_back(line);
 	}
 
 	if(!init()) {
@@ -72,15 +69,13 @@ int main(int argc, char *args[]) {
 			SDL_RenderClear(app.renderer);
 
 			//Draw each cells
-			for(const auto& line : cells) {
-				for(auto cell : line) {
-					cell->draw(app.renderer);
-				}
+			for(auto cell : cells) {
+				cell->draw(app.renderer);
 			}
 
 			SDL_RenderPresent(app.renderer);
 
-			update(cells);
+			update();
 
 			auto end = std::chrono::system_clock::now();
 
@@ -90,9 +85,9 @@ int main(int argc, char *args[]) {
 		}
 	}
 
-	//For each lines
-	for (auto line : cells) {
-		std::for_each(line.begin(), line.end(), delete_pointed_to<Cell>);
+	//For each cells
+	for(auto c : cells) {
+		delete_pointed_to(c);
 	}
 
 	close();
@@ -133,10 +128,15 @@ bool init() {
 	return success;
 }
 
-void update(const std::vector<std::vector<Cell*>>& cells) {
+Cell* getCellAt(int x, int y) {
+	return cells[(x * nb_cols) + y];
+}
+
+void update() {
 	for(int r = 0; r < nb_rows; r++) {
 		for(int c = 0; c < nb_cols; c++) {
-			Cell *cell = cells[r][c];
+			//Cell *cell = cells[r][c];
+			Cell *cell = getCellAt(r, c);
 
 			int nb_start_burning;
 			int nb_burning;
@@ -147,34 +147,34 @@ void update(const std::vector<std::vector<Cell*>>& cells) {
 			cellStatusToLook.reserve(8);
 
 			if(r > 0) {
-				cellStatusToLook.push_back(cells[r - 1][c]->getStatus()); //N
+				cellStatusToLook.push_back(getCellAt(r - 1, c)->getStatus()); //N
 
 				if((c + 1) < nb_cols) {
-					cellStatusToLook.push_back(cells[r - 1][c + 1]->getStatus());//NE
+					cellStatusToLook.push_back(getCellAt(r - 1, c + 1)->getStatus());//NE
 				}
 
 				if(c > 0) {
-					cellStatusToLook.push_back(cells[r-1][c-1]->getStatus()); //NO
+					cellStatusToLook.push_back(getCellAt(r-1, c-1)->getStatus()); //NO
 				}
 			}
 
 			if(c > 0) {
-				cellStatusToLook.push_back(cells[r][c-1]->getStatus()); //O
+				cellStatusToLook.push_back(getCellAt(r, c-1)->getStatus()); //O
 			}
 
 			if((c + 1) < nb_cols) {
-				cellStatusToLook.push_back(cells[r][c + 1]->getStatus()); //E
+				cellStatusToLook.push_back(getCellAt(r, c + 1)->getStatus()); //E
 			}
 
 			if((r + 1) < nb_rows) {
-				cellStatusToLook.push_back(cells[r + 1][c]->getStatus()); //S
+				cellStatusToLook.push_back(getCellAt(r + 1, c)->getStatus()); //S
 
 				if((c + 1) < nb_cols) {
-					cellStatusToLook.push_back(cells[r + 1][c + 1]->getStatus()); //SE
+					cellStatusToLook.push_back(getCellAt(r + 1, c + 1)->getStatus()); //SE
 				}
 
 				if(c > 0) {
-					cellStatusToLook.push_back(cells[r + 1][c - 1]->getStatus()); //SO
+					cellStatusToLook.push_back(getCellAt(r + 1, c - 1)->getStatus()); //SO
 				}
 			}
 
