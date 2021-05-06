@@ -71,10 +71,10 @@ int main(int argc, char *args[]) {
 			SDL_SetRenderDrawColor(app.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			SDL_RenderClear(app.renderer);
 
-			//Pour chaque cellule
+			//Draw each cells
 			for(const auto& line : cells) {
 				for(auto cell : line) {
-					cell->draw(app.renderer, app.window);
+					cell->draw(app.renderer);
 				}
 			}
 

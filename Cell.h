@@ -17,11 +17,19 @@ class Cell {
 			return m_status;
 		}
 
+		int getX() {
+			return m_x;
+		}
+
+		int getY() {
+			return m_y;
+		}
+
 		void setStatus(CellStatus status) {
 			m_status = status;
 		}
 
-		void draw(SDL_Renderer *renderer, SDL_Window *window);
+		void draw(SDL_Renderer *renderer);
 
 	private:
 

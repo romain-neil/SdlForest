@@ -6,7 +6,7 @@
 
 Cell::Cell(int x, int y, CellStatus status) : m_x(x), m_y(y), m_rect({x, y, BLOCK_SIZE, BLOCK_SIZE}), m_status(status) {}
 
-void Cell::draw(SDL_Renderer *renderer, SDL_Window *window) {
+void Cell::draw(SDL_Renderer *renderer) {
 	switch(m_status) {
 		case YOUNG:
 			SDL_SetRenderDrawColor(renderer, 0x7F, 0xFF, 0x00, 0);
