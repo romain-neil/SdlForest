@@ -17,14 +17,6 @@ class Cell {
 			return m_status;
 		}
 
-		int getX() {
-			return m_x;
-		}
-
-		int getY() {
-			return m_y;
-		}
-
 		void setStatus(CellStatus status) {
 			m_status = status;
 		}
@@ -32,9 +24,6 @@ class Cell {
 		void draw(SDL_Renderer *renderer);
 
 	private:
-
-		int m_x;
-		int m_y;
 
 		SDL_Rect m_rect;
 

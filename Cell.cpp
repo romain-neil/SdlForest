@@ -4,7 +4,7 @@
 
 #include "Cell.h"
 
-Cell::Cell(int x, int y, CellStatus status) : m_x(x), m_y(y), m_rect({x, y, BLOCK_SIZE, BLOCK_SIZE}), m_status(status) {}
+Cell::Cell(int x, int y, CellStatus status) : m_rect({x, y, BLOCK_SIZE, BLOCK_SIZE}), m_status(status) {}
 
 void Cell::draw(SDL_Renderer *renderer) {
 	switch(m_status) {
