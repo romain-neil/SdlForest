@@ -139,7 +139,6 @@ Cell* getCellAt(int x, int y) {
 void update() {
 	for(int r = 0; r < nb_rows; r++) {
 		for(int c = 0; c < nb_cols; c++) {
-			//Cell *cell = cells[r][c];
 			Cell *cell = getCellAt(r, c);
 
 			int nb_start_burning;
