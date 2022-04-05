@@ -43,10 +43,10 @@ int main(int argc, char *args[]) {
 
 	cells.reserve(nb_cells);
 
-	//Insert each cells
+	//Insert each cell
 	//For each line
 	for(int row = 0; row < nb_rows; row++) {
-		//For each cols
+		//For each col
 		for(int col = 0; col < nb_cols; col++) {
 			cells.push_back(new Cell(col * BLOCK_SIZE, row * BLOCK_SIZE));
 		}
@@ -72,7 +72,7 @@ int main(int argc, char *args[]) {
 			SDL_SetRenderDrawColor(app.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			SDL_RenderClear(app.renderer);
 
-			//Draw each cells
+			//Draw each cell
 			for(auto cell : cells) {
 				cell->draw(app.renderer);
 			}
@@ -89,7 +89,7 @@ int main(int argc, char *args[]) {
 		}
 	}
 
-	//For each cells
+	//For each cell
 	for(auto c : cells) {
 		delete_pointed_to(c);
 	}
